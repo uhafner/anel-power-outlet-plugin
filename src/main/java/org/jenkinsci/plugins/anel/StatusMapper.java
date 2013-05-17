@@ -25,13 +25,13 @@ public class StatusMapper {
         for (AbstractProject project : projects) {
             if (!project.isDisabled()) {
                 if (BallColor.BLUE == project.getIconColor()) {
-                    powerSwitchValue += 1;
+                    powerSwitchValue |= 1;
                 }
                 else if (BallColor.YELLOW == project.getIconColor()) {
-                    powerSwitchValue += 2;
+                    powerSwitchValue |= 2;
                 }
                 else if (BallColor.RED == project.getIconColor()) {
-                    powerSwitchValue += 4;
+                    powerSwitchValue |= 4;
                 }
             }
         }
