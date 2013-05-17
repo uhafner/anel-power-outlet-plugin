@@ -23,6 +23,16 @@ import hudson.model.listeners.RunListener;
 public class JenkinsStatusListener extends RunListener<Run<?, ?>> implements Describable<JenkinsStatusListener> {
     @Override
     public void onCompleted(final Run<?, ?> r, final TaskListener listener) {
+        update();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void onDeleted(final Run<?, ?> r) {
+        update();
+    }
+
+    private static void update() {
         new StatusMapper().update();
     }
 
@@ -40,7 +50,7 @@ public class JenkinsStatusListener extends RunListener<Run<?, ?>> implements Des
     @Extension
     public static class DescriptorImpl extends Descriptor<JenkinsStatusListener> {
         private String ip;
-        private int port;
+        private int port = 75;
         private String password;
         private String user;
 
@@ -62,6 +72,8 @@ public class JenkinsStatusListener extends RunListener<Run<?, ?>> implements Des
         public boolean configure(final StaplerRequest req, final JSONObject json) throws FormException {
             req.bindJSON(this, json);
             save();
+
+            update();
             return true;
         }
 
